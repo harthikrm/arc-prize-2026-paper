@@ -2,7 +2,7 @@
 
 **Subtitle:** Likelihood-band selection of synthetic ARC-AGI-2 tasks from ARC-Mega: +2.7 on the hidden test from 6k tasks and 2 GPU-hours, and why held-out loss is the wrong signal
 
-**Track:** ARC-AGI-2 · **Linked submission:** `[SUBMISSION ID]` (notebook `[URL]`, model `harthikrm/nvarc-mega-r1`, public LB 32.22 / 30.14 on two draws)
+**Track:** ARC-AGI-2 · **Linked submission:** notebook *NVARC updated*, version 9 ("v9 mega-r1 smoke") — https://www.kaggle.com/code/harthikrm/nvarc-updated?scriptVersionId=356815178 — model `harthikrm/nvarc-mega-r1`, public LB 32.22 (second draw of the same version: 30.14)
 
 ## Summary
 

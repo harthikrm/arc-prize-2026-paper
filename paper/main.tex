@@ -287,7 +287,7 @@ We thank the \nvarc{} authors for releasing their code and checkpoint, and Minds
 \label{app:repro}
 
 \paragraph{Linked submission.}
-Kaggle notebook: \todo{notebook URL}.\\ Submission ID: \todo{ID} (model \texttt{harthikrm/nvarc-mega-r1}; public-leaderboard score 32.22, second draw 30.14). Code: \url{https://github.com/harthikrm/arc-prize-2026-paper}.
+Kaggle notebook \emph{NVARC updated}, version 9 (``v9 mega-r1 smoke), \url{https://www.kaggle.com/code/harthikrm/nvarc-updated?scriptVersionId=356815178}; model \texttt{harthikrm/nvarc-mega-r1} (v1); public-leaderboard score 32.22 (second draw of the same version: 30.14). Code: \url{https://github.com/harthikrm/arc-prize-2026-paper}.
 
 \paragraph{Competition-time pipeline.}
 The public \nvarc{} notebook (pinned Kaggle environment of 2025-07-07, Unsloth with the flash-attention patch) with three changes: a glob that resolves the model directory (\texttt{NVARC\_MODEL\_DIR}); a placeholder \texttt{submission.json} written in the first minute covering all hidden task IDs; and a \texttt{StopAtDeadline} callback that halts test-time training at 11.75\,h so the 12-hour limit cannot zero the run. Per-task TTT (LoRA $r{=}256$, $\alpha{=}32$, bf16), batched DFS decoding with a per-task cap, and the stock augmentation re-scoring rule are unchanged.
