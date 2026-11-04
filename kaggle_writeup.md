@@ -59,6 +59,6 @@ The rule needs only a solver that assigns likelihoods and a target benchmark to 
 
 ## Resources
 
-- Paper (PDF, full details and figures): `[Public Project Link]`
-- Code: `mega_probe.py`, scoring notebook `nvarc-mega-score`, `build_train_data.py`, `train_lora.py` + `arc_format.py`, `selection_lab.py` — `[GitHub URL]`
+- Paper (PDF, full details and figures): https://github.com/harthikrm/arc-prize-2026-paper/blob/main/paper/arc2026_let_the_solver_choose_its_data.pdf
+- Code: `mega_probe.py`, scoring notebook `nvarc-mega-score`, `build_train_data.py`, `train_lora.py` + `arc_format.py`, `selection_lab.py` — https://github.com/harthikrm/arc-prize-2026-paper
 - Model: `harthikrm/nvarc-mega-r1` (Kaggle Models) · Base: `sorokin/qwen3_4b_grids15_sft139` · Pool: `mindware/arc-agi-mega`
