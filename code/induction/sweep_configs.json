@@ -1,0 +1,174 @@
+{
+  "_comment": "Model sweep for the weekend gate. All are ~3B-active MoE models that fit 4xL4 (96 GB). Parser names are tried in order until vLLM accepts one. 'solver' args are appended to solver.py.",
+  "configs": [
+    {
+      "label": "qwen36_think",
+      "family": "Qwen3.6-35B-A3B",
+      "model": "Qwen/Qwen3.6-35B-A3B-FP8",
+      "tool_parser": [
+        "qwen3_coder",
+        "hermes"
+      ],
+      "reasoning_parser": [
+        "qwen3"
+      ],
+      "vllm_extra": [
+        "--language-model-only"
+      ],
+      "solver": [
+        "--thinking",
+        "on",
+        "--max-tokens",
+        "6000"
+      ],
+      "env": {
+        "VLLM_USE_DEEP_GEMM": "0"
+      }
+    },
+    {
+      "label": "qwen36_think_10k",
+      "family": "Qwen3.6-35B-A3B",
+      "model": "Qwen/Qwen3.6-35B-A3B-FP8",
+      "tool_parser": [
+        "qwen3_coder",
+        "hermes"
+      ],
+      "reasoning_parser": [
+        "qwen3"
+      ],
+      "vllm_extra": [
+        "--language-model-only"
+      ],
+      "solver": [
+        "--thinking",
+        "on",
+        "--max-tokens",
+        "10000"
+      ],
+      "env": {
+        "VLLM_USE_DEEP_GEMM": "0"
+      },
+      "_note": "Same as qwen36_think with a 10K token cap: smoke test truncated 35% of turns at 6K."
+    },
+    {
+      "label": "qwen36_nothink",
+      "family": "Qwen3.6-35B-A3B",
+      "model": "Qwen/Qwen3.6-35B-A3B-FP8",
+      "tool_parser": [
+        "qwen3_coder",
+        "hermes"
+      ],
+      "reasoning_parser": [
+        "qwen3"
+      ],
+      "vllm_extra": [
+        "--language-model-only"
+      ],
+      "solver": [
+        "--thinking",
+        "off",
+        "--max-tokens",
+        "3000"
+      ],
+      "env": {
+        "VLLM_USE_DEEP_GEMM": "0"
+      }
+    },
+    {
+      "label": "gptoss20b_medium",
+      "family": "gpt-oss-20b",
+      "model": "openai/gpt-oss-20b",
+      "tool_parser": [
+        "openai"
+      ],
+      "reasoning_parser": [
+        "openai_gptoss",
+        "openai"
+      ],
+      "vllm_extra": [],
+      "solver": [
+        "--reasoning-effort",
+        "medium",
+        "--max-tokens",
+        "6000"
+      ]
+    },
+    {
+      "label": "qwen3coder30b",
+      "family": "Qwen3-Coder-30B-A3B",
+      "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8",
+      "tool_parser": [
+        "qwen3_coder",
+        "hermes"
+      ],
+      "reasoning_parser": [],
+      "vllm_extra": [],
+      "env": {
+        "VLLM_USE_DEEP_GEMM": "0"
+      },
+      "solver": [
+        "--thinking",
+        "off",
+        "--max-tokens",
+        "4000"
+      ],
+      "_note": "Plain transformer MoE (qwen3_moe, no linear-attention/Mamba layers): no kernel warm-up. Instruct only, no thinking mode. Apache 2.0."
+    }
+  ],
+  "benched": [
+    {
+      "label": "nemotron_nano_think",
+      "family": "Nemotron-3-Nano-30B-A3B",
+      "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-FP8",
+      "tool_parser": [
+        "qwen3_coder",
+        "hermes"
+      ],
+      "reasoning_parser": [
+        "nemotron_v3",
+        "nano_v3"
+      ],
+      "vllm_extra": [
+        "--trust-remote-code",
+        "--mamba-ssm-cache-dtype",
+        "float32"
+      ],
+      "solver": [
+        "--thinking",
+        "on",
+        "--max-tokens",
+        "6000"
+      ],
+      "reasoning_parser_plugin": {
+        "nano_v3": "nano_v3_reasoning_parser.py"
+      },
+      "_note": "Gated repo: accept the licence on huggingface.co/nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-FP8 and set HF_TOKEN first. FP8 KV cache dropped: the checkpoint ships no k/v scales (vLLM warns of accuracy issues).",
+      "_benched": "2026-10-01 smoke test: 0/8 solved, 98% truncated turns (reasons cell by cell instead of calling the tool, 0 programs written), 238K tokens/task (proj. 10.6 Kaggle h), 2,235 s cold start from Mamba kernel compiles. Not run in the full sweep."
+    },
+    {
+      "label": "qwen3_30b_think2507",
+      "family": "Qwen3-30B-A3B-2507",
+      "model": "Qwen/Qwen3-30B-A3B-Thinking-2507-FP8",
+      "tool_parser": [
+        "hermes",
+        "qwen3_coder"
+      ],
+      "reasoning_parser": [
+        "deepseek_r1",
+        "qwen3"
+      ],
+      "vllm_extra": [],
+      "env": {
+        "VLLM_USE_DEEP_GEMM": "0"
+      },
+      "solver": [
+        "--thinking",
+        "on",
+        "--max-tokens",
+        "6000"
+      ],
+      "_note": "Plain transformer MoE (qwen3_moe): no kernel warm-up. Thinking-only model. Apache 2.0.",
+      "_benched": "2026-10-01 smoke test: 0/8, 100% truncated turns at 6K (thinks past the cap every turn, never reaches a tool call), 240K tokens/task (proj. 10.7 Kaggle h). Same failure as Nemotron."
+    }
+  ]
+}
